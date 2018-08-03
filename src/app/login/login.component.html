@@ -1,0 +1,34 @@
+<div class="container">
+<div>{{securityObject |json}}</div>
+<div class="row">
+   
+   <div   class="alert alert-danger" *ngIf="securityObject && !securityObject.isAuthinticated">
+ <label>username or password incorrect</label>
+   </div>
+  </div>
+ <form>
+
+   
+  
+  <div class="row">
+   
+   <div   class="col-sm-12">
+ <label>phone<input [(ngModel)]="user.userName" name="phone" type="text" id="phone"></label>
+   </div>
+  </div>
+  
+  <div class="row">
+   
+   <div   class="col-sm-12">
+ <label>password<input [(ngModel)]="user.password" name="password" type="password" id="password"></label>
+   </div>
+  </div>
+
+    <div class="row">
+   
+   <div   class="col-sm-12">
+<button type="button" id="submit" (click)="login()">submit</button>
+   </div>
+  </div>
+</form>
+</div>

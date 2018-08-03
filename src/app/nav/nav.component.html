@@ -1,0 +1,29 @@
+ <div class="pos-f-t">
+ 
+ <nav class="navbar navbar-light bg-light border border-info">
+   <button class="navbar-toggler btn-outline-success border border-info" type="button" (click)="openNav()">
+     <span class="navbar-toggler-icon "></span>
+   </button>
+  
+ </nav>
+ 
+ 
+  
+</div>
+
+
+
+  <div id="nav" class="nav" style="display:block">
+  
+    <a *ngIf="securityObject.isAuthinticated" (click)="logout()">logout {{ securityObject.userName}}</a>
+    <a   *ngIf="!securityObject.isAuthinticated" (click)="login()">login</a>
+  <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+  <a href="#"  routerLink="/userDetails"><div style="width:50px" >PROFILE</div></a>
+  <a href="#" routerLink="/myRide">My Ride</a>
+  <a href="#" routerLink="/myRide">My Wallet</a>
+  <a href="#" routerLink="/vehicle">My Vehicle</a>
+  <a href="#" routerLink="/offers">My Offers</a>
+  <a href="#" routerLink="/settings">Settings</a>
+</div>
+
+

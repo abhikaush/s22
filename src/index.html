@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>S22</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<!--   <link rel="stylesheet" href="assets/forms.css"> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?signed_in=true"></script> -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVI-NRQzP9WotO9scEAr8YCKYGplbLUPg&libraries=places&sensor=false&language=en"></script>
+ </head>
+ <body>
+ 
+ <app-root></app-root>
+
+<!--  <script> var origin1 = new google.maps.LatLng(9.6667, 80.0000);
+ var destinationA = new google.maps.LatLng(9.6689, 80.0059);
+
+
+
+ function calculateDistances(origins,destinations) {
+             var service = new google.maps.DistanceMatrixService();
+             var d = $.Deferred();
+             service.getDistanceMatrix(
+                 {
+                     origins: origins,
+                     destinations: destinations,
+                     travelMode: google.maps.TravelMode.DRIVING,
+                     unitSystem: google.maps.UnitSystem.METRIC,
+                     avoidHighways: false,
+                     avoidTolls: false
+                 }, 
+                 function(response, status){
+                   if (status != google.maps.DistanceMatrixStatus.OK) {
+                      d.reject(status);
+                   } else {
+                      d.resolve(response);
+                   }
+                 });
+             return d.promise();
+ }
+
+         
+
+function getdistance(a,b,c,d){
+	alert("inside js");
+	var slat=a;
+		var slng=b;
+			var elat=c;
+				var elng=d;
+	 var origin1 = new google.maps.LatLng(slat, slng);
+	 var destinationA = new google.maps.LatLng(elat, elng);
+         calculateDistances([origin1],[destinationA])
+            .done(function(response){
+
+                 var origins = response.originAddresses;
+
+                 for (var i = 0; i < origins.length; i++) {
+                     var results = response.rows[i].elements;
+                     for (var j = 0; j < results.length; j++) {
+                         //console.log(results[j].distance.text);
+                         document.getElementById('result').innerHTML += results[j].distance.text;
+                     }
+                 }
+
+            })
+            .fail(function(status){
+               document.getElementById('result').innerHTML = 'An error occured. Status: ' + status;
+            });} 
+
+ 
+ </script>  -->
+
+ 
+</body>
+</html>

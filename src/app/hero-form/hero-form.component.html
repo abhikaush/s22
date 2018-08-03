@@ -1,0 +1,211 @@
+
+<div class="container">
+
+
+<agm-map  [latitude]="rideTypeObj.startRide.latitude" [longitude]="rideTypeObj.startRide.longitude" [zoom]=10.8 (mapClick)="pickLocationOnMapclick($event)">
+ <agm-direction  [travelMode]="travelMode" [panel]="setPanel()" [markerOptions]="markerOptions" [renderOptions]="renderOptions" [origin]="origin" [destination]="destination" ></agm-direction>
+<agm-marker [markerDraggable]="true" [animation]="DROP" [latitude]="rideTypeObj.startRide.latitude" [longitude]="rideTypeObj.startRide.longitude" (dragEnd)="markerchange($event);" ></agm-marker>
+
+
+
+</agm-map>
+</div>
+
+<form class="form-group-sm" ngSubmit="onSubmit()" #Ride="ngForm">
+  <div class="form-row">
+    <div class="radio form-group col-6">
+  
+  <label>  <input  type="radio"  name="rideType"  [(ngModel)]="rideTypeObj.isRideType" value="take" (change)="selectRide()" > Take</label>
+    </div>
+    <div class="radio form-group col-6">
+
+   <label> <input type="radio"  name="rideType" checked [(ngModel)]="rideTypeObj.isRideType" value="offer" (change)="selectRide()" >offer</label>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-6">
+      <label for="start">From</label>
+      <input type="Text" class="form-control" (click)="onClickMe($event)" [(ngModel)]="rideTypeObj.startRide.formattedAddress" placeholder="From"  id="start" name="start">
+  
+    </div>
+    <div class="form-group col-6">
+      <label for="end">To</label>
+      <input type="Text" class="form-control" (click)="onClickMe($event)" id="end" [(ngModel)]="rideTypeObj.endRide.formattedAddress"  placeholder="To"  name="end">
+
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="form-group col-6">
+    
+    
+  <div class="form-group">
+     <input type="Text" class="form-control" id="endj"  placeholder="To"  name="end" >
+    </div>
+  
+
+
+
+    </div>
+    
+     <div class="form-group-sm col-6" id="ride" style="border-bottom: 1px solid lightgrey;padding-left: 0px;">
+     
+     <select [hidden]="!rideTypeObj.isTakeRide">
+     <option>1</option>
+     <option>2</option>
+     <option>3</option>
+     <option>4</option>
+     <option>5</option>
+  
+     
+     
+     </select>
+     
+      <div id="selectCar" class="form-group-sm col-md-6" [hidden]="!rideTypeObj.isOfferRide" data-toggle="modal" data-target="#exampleModal" style="border-bottom: 1px solid lightgrey;width: 410px;height: 25px;padding-left: 0px;">
+    </div>
+   
+    </div>
+    
+  </div>    
+    </form>  
+    
+   <!-- model --> 
+    
+    
+    
+    
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="radio form-group col-12 d-flex">
+      <input id="bike" type="button" name="vehicle" #bikeButton (click)=onClickVehicle($event); value="bike" class="btn btn-outline-success w-50 mr-2 form-group-sm"/>
+      <input id="car" type="button" name="vehicle" #carButton  (click)=onClickVehicle($event); value="car" class="btn btn-danger w-50 form-group-sm"/>
+              </div>
+           <div [hidden]="!selectVehicle.isBikeSelected">   
+               <form class="form-group-sm" ngSubmit="onSubmit()" #bike="ngForm">
+                <select name="opt" [(ngModel)]="vehicleIsBike.bikeType" id="bikeSelect">
+   <option>Sports Bike</option>
+   <option>ScooterRegular BIke</option>
+   <option>Regular BIke</option>
+   <option>Cruise Bike</option>
+   
+   </select>
+          <div class="form-row">
+   
+  
+  <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.regNo"   name="regNo"> regno</label>
+  
+   <label>  <input class="form-group-sm" type="Checkbox" [(ngModel)]="vehicleIsBike.Helmate"  name="Helmate"  > Does helmet to be carried by pillion rider</label>
+       </div>
+      <div class="form-row">
+    <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.farePerKm" name="farePerKm" > Fare/KM</label>
+     <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.offeringSeats" name="offeringSeats"  > Offering Seats</label>
+      </div>
+       <div class="form-row">
+      <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.category" placeholder="Make & Category (Ex. Black CBR)" name="cat" > </label>
+    </div>
+    </form>
+    </div>
+    <div [hidden]="!selectVehicle.isCarSelected">
+     <form class="form-group-sm" ngSubmit="onSubmit()" #Car="ngForm">
+          <div class="form-row">
+   <select name="opt" id="carSelect" [(ngModel)]="vehicleIsCar.carType">
+   <option>Hatch Back</option>
+   <option>Sedan</option>
+   <option>SUV</option>
+   <option>Premium</option>
+   
+   </select>
+  
+  <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.regNo" name="regNo" value="" > regno</label>
+   <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.farePerKm" name="farePerKm" value="" > Fare/KM</label>
+       </div>
+      <div class="form-row">
+    <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.offeringSeats" name="offeringSeats" value="" > offering Seats</label>
+     <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.category" name="category" placeholder="Make & category (EX. Red swift)" value="" > </label>
+      </div>
+       <div class="form-row">
+      <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.features" name="features"  placeholder="Features" value="" > </label>
+    </div>
+    </form>
+    </div>
+    
+    
+    
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)=addVehicle();>Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- model -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+
+   <div class="form-row" >
+   
+ <button  type="submit" class="btn btn-success col-md-12" >Submit</button>
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+    
+<div  [hidden]="startFlag" class="autocomplete" >
+ <!--  <a href="" class="closebtn" (click)="onClickdiv()">&times;</a> -->
+<input class="form-control" (onAddressChange)="onClickdiv($event)" ngx-google-places-autocomplete  name="start"  id='ends' 
+[options]="{
+    types: [],
+    componentRestrictions: { country: 'IN' },
+    style:[]   
+    }"  (onAddressChange)="handleAddressChange($event)"/>
+    <div (click)="onClickdiv($event)">choose from map</div>
+    </div>
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+     
+      
+      
+      
+
