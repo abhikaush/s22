@@ -5,7 +5,7 @@ import {AgmCoreModule} from '@agm/core';
 import { AppComponent } from './app.component';
 import { AgmDirectionModule } from 'agm-direction';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-import { HeroFormComponent } from './hero-form/hero-form.component';
+import { HomeFormComponent } from './home-form/home-form.component';
 import { FormsModule } from '@angular/forms';
 import { MapComponent } from './map/map.component';
 import { NavComponent } from './nav/nav.component';
@@ -25,7 +25,7 @@ import { FindRideComponent } from './find-ride/find-ride.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeroFormComponent,
+    HomeFormComponent,
     MapComponent,
     NavComponent,
     MyRideComponent,

@@ -20,11 +20,11 @@ import {Component, ViewChild, OnInit, Input} from '@angular/core';
 @Component({
   selector: 'app-hero-form',
 
-  templateUrl: './hero-form.component.html',
-  styleUrls: ['./hero-form.component.css']
+  templateUrl: './home-form.component.html',
+  styleUrls: ['./home-form.component.css']
 })
 
-export class HeroFormComponent extends MapComponent implements OnInit {
+export class HomeFormComponent extends MapComponent implements OnInit {
 
   //map veriables
   public origin: {}

@@ -1,7 +1,7 @@
 import { cacheMemory, VehicleListConst } from '../../model/constant';
 import {TakeRide} from '../../model/takeride';
 import {Vehicle} from '../../model/vehicle';
-import {HeroFormComponent} from '../hero-form/hero-form.component';
+import {HomeFormComponent} from '../home-form/home-form.component';
 import {Component, OnInit} from '@angular/core';
 
 @Component({

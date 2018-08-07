@@ -1,4 +1,4 @@
-import {HeroFormComponent} from './hero-form/hero-form.component';
+import {HomeFormComponent} from './home-form/home-form.component';
 import {LoginComponent} from './login/login.component';
 import {MyOffersComponent} from './my-offers/my-offers.component';
 import {MyRideComponent} from './my-ride/my-ride.component';
@@ -13,7 +13,7 @@ import {RouterModule, Routes} from '@angular/router';
 const routes: Routes = [
   {path: 'myRide', component: MyRideComponent, canActivate: [AuthGuard], data: {claimType: 'canViewRide'}},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HeroFormComponent},
+  {path: 'home', component: HomeFormComponent},
   {path: 'vehicle', component: MyVehicleComponent, canActivate: [AuthGuard], data: {claimType: 'canViewVehicle'}},
   {path: 'offers', component: MyOffersComponent},
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard], data: {claimType: 'canViewSettings'}},
