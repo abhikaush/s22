@@ -28,10 +28,11 @@ export class UserService {
     };
   }
 
-  getUserDetails(): Observable<User> {
-
-    return this.http.get<User>(this.userDetailsUrl).pipe(
-      tap(Rides => console.log('fetched heroes ride')),
+  getUserDetails(userId:string): Observable<User> {
+//const url = `${this.userDetailsUrl}/${userId}`;
+    const url=this.userDetailsUrl;
+    return this.http.get<User>(url).pipe(
+      tap(Rides => console.log('fetched user ride')),
       catchError(this.handleError<User>('UserDetails'))
     );
   }

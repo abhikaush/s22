@@ -4,9 +4,7 @@ import {TakeRide} from '../../model/takeride';
 import {SearchRideService} from '../service/search-ride.service';
 import {Component, OnInit, Injectable} from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+
 @Component({
   selector: 'app-find-ride',
   templateUrl: './find-ride.component.html',

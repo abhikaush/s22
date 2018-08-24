@@ -1,41 +1,23 @@
 <div class="container">
- <form>
-  <div class="row">
-   
-   <div   class="col-sm-12">
- <label>name<input [(ngModel)]="user.userName" name="name" type="text" id="name"></label>
-   </div>
-  </div>
-  <div class="row">
-   
-   <div   class="col-sm-12">
- <label>email<input [(ngModel)]="user.userEmail" name="email" type="text" id="email"></label>
-   </div>
-  </div>
-  <div class="row">
-   
-   <div   class="col-sm-12">
- <label>phone<input [(ngModel)]="user.userPnoneNumber" name="phone" type="text" id="phone"></label>
-   </div>
-  </div>
-  
-  <div class="row">
-   
-   <div   class="col-sm-12">
- <label>password<input [(ngModel)]="user.userPassword" name="password" type="password" id="password"></label>
-   </div>
-  </div>
-  <div class="row">
-   
-   <div   class="col-sm-12">
- <label>confirm password<input [(ngModel)]="user.userPassword" name="password" type="password" id="password"></label>
-   </div>
-  </div>
-    <div class="row">
-   
-   <div   class="col-sm-12">
-<button type="text" id="password">submit</button>
-   </div>
-  </div>
-</form>
+	<form>
+		<mat-grid-list cols="1" rowHeight="70px"> <mat-grid-tile>
+		<mat-form-field class="example-full-width"> <input
+			matInput placeholder="Name" type="text" id="name"
+			[(ngModel)]="user.userName" name="name"> </mat-form-field> </mat-grid-tile> <mat-grid-tile>
+		<mat-form-field class="example-full-width"> <input
+			matInput placeholder="email" type="email" id="email"
+			[(ngModel)]="user.userEmail" name="email"> </mat-form-field> </mat-grid-tile> <mat-grid-tile>
+		<mat-form-field class="example-full-width"> <input
+			matInput placeholder="phone" type="number" id="phone"
+			[(ngModel)]="user.userPnoneNumber" name="phone"> </mat-form-field> </mat-grid-tile> <mat-grid-tile>
+		<mat-form-field class="example-full-width"> <input
+			matInput placeholder="Password" type="password" id="password"
+			[(ngModel)]="user.userPassword" name="password"> </mat-form-field> </mat-grid-tile> <mat-grid-tile>
+		<mat-form-field class="example-full-width"> <input
+			matInput placeholder="Confirm Password" type="password"
+			id="Confirmpassword" [(ngModel)]="user.userPassword" name="password">
+		</mat-form-field> </mat-grid-tile> <mat-grid-tile>
+		<button class="example-full-width" mat-raised-button color="primary">Primary</button>
+		</mat-grid-tile> </mat-grid-list>
+	</form>
 </div>

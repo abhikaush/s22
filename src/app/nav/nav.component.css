@@ -1,19 +1,37 @@
 
 
+.right{
+	float:right;
+}
 
+.app-sidenav {
+	position:absolute;
+	z-index:1;
+  min-width: 200px;
+}
+.example-card {
+  width: 100%;
+}
 
-
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+.example-spacer {
+  flex: 1 1 auto;
+}
 .nav {
-     height: 100%;
-    width: 0;
+     height: 90%;
+    width: 40%;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #5a3838;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    
+    cursor: pointer
 }
 
 body {

@@ -1,20 +1,24 @@
 
 import {Bike} from '../../model/bike';
 import {Car} from '../../model/car';
-import {cacheMemory, VehicleListConst} from '../../model/constant';
+
 import {LocationAddress} from '../../model/locationAddress';
 import {OfferRide} from '../../model/offerride';
 import {Ride} from '../../model/ride';
 import {TakeRide} from '../../model/takeride';
+import {User} from '../../model/user';
 import {Vehicle} from '../../model/vehicle';
 import {FindRideComponent} from '../find-ride/find-ride.component';
 import {Hero} from '../hero';
 import {MapComponent} from '../map/map.component';
 import {Address} from '../map/objects/address';
+import { DataService } from '../service/data.service';
 import {RideService} from '../service/ride.service';
 import {SearchRideService} from '../service/search-ride.service';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {Component, ViewChild, OnInit, Input} from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
+import {GooglePlaceDirective} from 'ngx-google-places-autocomplete';
 
 
 @Component({
@@ -24,98 +28,146 @@ import {Component, ViewChild, OnInit, Input} from '@angular/core';
   styleUrls: ['./home-form.component.css']
 })
 
-export class HomeFormComponent extends MapComponent implements OnInit {
+export class HomeFormComponent implements OnInit {
 
   //map veriables
+  @ViewChild("placesRef") placesRef: GooglePlaceDirective;
+  public locAdd: LocationAddress;
+  public startFlag: boolean = true;
+  public point1: string = '';
   public origin: {}
   public destination: {}
   public start: string = '';
   public end: string = '';
+  private isLoaded:boolean=false;
   //map veriable
-  @Input() rideTypeObj: Ride = null;
+  public rideTypeObj: Ride = null;
   private offerRideObj: Ride = null;
-  private selectVehicle: Vehicle;
+ // private selectVehicle: Vehicle;
   private vehicleIsCar: Car = new Car();
   private vehicleIsBike: Bike = new Bike();
+  public user: User = null;
+  private dataPopulatedIndicator:boolean=false;
+  constructor(private rideService: RideService,private dataService:DataService) {
 
-  constructor(private rideService: RideService, private takerideMethod: FindRideComponent) {
-    super();
+
   }
   ngOnInit() {
-
-    this.selectVehicle = new Car();
-    this.rideTypeObj = new OfferRide();
+  
     this.getRideFromServer();
+
+   // this.selectVehicle = new Car();
+
+
     this.getge();
 
   }
 
-  takeRide() {
-    this.takerideMethod.takeRide(<TakeRide>this.rideTypeObj);
-  }
-
-  populateRideDetails() {
-
-    if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
-      cacheMemory.set(this.rideTypeObj.isRideType, this.rideTypeObj);
-
-    }
 
 
-  }
+  //  populateRideDetails() {
+  //
+  //    if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
+  //      cacheMemory.set(this.rideTypeObj.isRideType, this.rideTypeObj);
+  //
+  //    }
+
+
+  //}
   public getRideFromServer() {
-    alert("reduce this call on route");
-    this.rideService.getRide().subscribe(rideTypeObj => {
-      this.rideTypeObj = rideTypeObj
-    });
+    this.dataService.currentUser.subscribe(user=>this.user=user);
+  
 
+    if (this.user.userRide!=null) {
+      //    this.rideService.getRide().subscribe(rideTypeObj => {
+      //      this.rideTypeObj = rideTypeObj
+   //    });
+      
+      this.dataPopulatedIndicator=true;
+      this.rideTypeObj = this.user.userRide;
+      if(this.rideTypeObj.isOfferRide)
+        {
+       this.populateVehicleByType();
+      }
+   
+    }
+    else {
+ this.dataPopulatedIndicator=false;
+    
+      this.rideTypeObj = new TakeRide();
+       
+    }
+     
   }
 
-
+//  public isOfferRide(): boolean {
+//
+//    return this.rideTypeObj.isOfferRide;
+//  }
+//
+//  public isTakeRide(): boolean {
+//
+//
+//    return this.rideTypeObj.isTakeRide;
+//
+//
+//  }
 
   public selectRide(): void {
 
-    this.populateRideDetails();
+
+    // this.populateRideDetails();
 
     if (this.rideTypeObj.isRideType == "take") {
-      alert(JSON.stringify(cacheMemory.get("take")));
-      if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
+      
+      //      if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
+      //        this.rideTypeObj = new TakeRide();
+      //      } else {
+      //        this.rideTypeObj = <TakeRide>cacheMemory.get(this.rideTypeObj.isRideType);
+      //
+      //      }
+      if (!this.rideTypeObj.isTakeRide) {
+        
+        
         this.rideTypeObj = new TakeRide();
       }
-      else {
-        this.rideTypeObj = <TakeRide>cacheMemory.get(this.rideTypeObj.isRideType);
-
+       if(this.dataPopulatedIndicator && this.user.userRide.isTakeRide){
+       this.rideTypeObj=<TakeRide>this.user.userRide;
       }
-      this.rideTypeObj.isTakeRide = true;
-      this.rideTypeObj.isOfferRide = false;
-      this.rideTypeObj.isRideType = "take";
+
 
 
 
     } else if (this.rideTypeObj.isRideType == "offer") {
-
-      if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
-        this.rideTypeObj = new OfferRide();
-
+    
+      //      if (cacheMemory.get(this.rideTypeObj.isRideType) == null) {
+      //        this.rideTypeObj = new OfferRide();
+      //
+      //      }
+      //      else {
+      //        this.rideTypeObj = <OfferRide>cacheMemory.get(this.reObj.isRideType);
+      //
+      //      }
+      
+      if (!this.rideTypeObj.isOfferRide) {
+         this.rideTypeObj=new OfferRide();
+        (<OfferRide>this.rideTypeObj).setVehicleList(new Car());
       }
-      else {
-        this.rideTypeObj = <OfferRide>cacheMemory.get(this.rideTypeObj.isRideType);
-
+     if(this.dataPopulatedIndicator && this.user.userRide.isOfferRide){
+       this.rideTypeObj=<OfferRide>this.user.userRide;
       }
-      console.log(JSON.stringify(this.rideTypeObj));
-      alert(JSON.stringify(this.rideTypeObj));
+    
       //
       //      if ((<OfferRide>this.rideTypeObj).vehicleList.length > 0)
       //        this.selectVehicle = <Bike>(<OfferRide>this.rideTypeObj).vehicleList[0];
 
-      this.rideTypeObj.isRideType = "offer";
-      this.rideTypeObj.isOfferRide = true;
-      this.rideTypeObj.isTakeRide = false;
-      this.populateVehicleByType();
+     
 
-      VehicleListConst.push(((<OfferRide>this.rideTypeObj).vehicleList)[0]);
-      alert(VehicleListConst.length);
+    
 
+      //      VehicleListConst.push(((<OfferRide>this.rideTypeObj).vehicleList)[0]);
+      //     
+      //
 
     }
 
@@ -123,54 +175,63 @@ export class HomeFormComponent extends MapComponent implements OnInit {
   public populateVehicleByType() {
     if ((<OfferRide>this.rideTypeObj).vehicleList.length == 0) {
 
-      this.selectVehicle = new Car();
+      this.vehicleIsCar = new Car();
     } else if ((<OfferRide>this.rideTypeObj).vehicleList.length > 0) {
 
       if ((<OfferRide>this.rideTypeObj).vehicleList.length == 1 && ((<OfferRide>this.rideTypeObj).vehicleList[0].isBikeSelected)) {
         this.vehicleIsBike = <Bike>(<OfferRide>this.rideTypeObj).vehicleList[0];
-        this.selectVehicle.isBikeSelected = true;//to be changed on basis of primary vehicle or previous ride
-        this.selectVehicle.isCarSelected = false;//to be changed on basis of primary vehicle or previous ride
-        alert("BIke" + JSON.stringify(this.vehicleIsBike));
+      //  this.selectVehicle.isBikeSelected = true;//to be changed on basis of primary vehicle or previous ride
+     //   this.selectVehicle.isCarSelected = false;//to be changed on basis of primary vehicle or previous ride
+       
       } else if ((<OfferRide>this.rideTypeObj).vehicleList.length == 1 && ((<OfferRide>this.rideTypeObj).vehicleList[0].isCarSelected)) {
         this.vehicleIsCar = <Car>(<OfferRide>this.rideTypeObj).vehicleList[0];
-        this.selectVehicle.isBikeSelected = false;//to be changed on basis of primary vehicle or previous ride
-        this.selectVehicle.isCarSelected = true;//to be changed on basis of primary vehicleor previous ride
+      //  this.selectVehicle.isBikeSelected = false;//to be changed on basis of primary vehicle or previous ride
+     //   this.selectVehicle.isCarSelected = true;//to be changed on basis of primary vehicleor previous ride
       }
       else {
         for (let i: number = 0; i < (<OfferRide>this.rideTypeObj).vehicleList.length; i++) {
 
-          alert("Array" + JSON.stringify((<OfferRide>this.rideTypeObj).vehicleList[i]));
+        
           if (((<OfferRide>this.rideTypeObj).vehicleList[i].isCarSelected)) {
 
             this.vehicleIsCar = <Car>(<OfferRide>this.rideTypeObj).vehicleList[i];
-            alert("CAR ARRAY" + JSON.stringify(this.vehicleIsCar));
-            this.selectVehicle.isBikeSelected = false;//to be changed on basis of primary vehicle or previous ride
-            this.selectVehicle.isCarSelected = true;//to be changed on basis of primary vehicleor previous ride
+         
+            this.vehicleIsCar.isCarSelected=true;
+      this.vehicleIsBike.isBikeSelected=false;
+           // this.selectVehicle.isBikeSelected = false;//to be changed on basis of primary vehicle or previous ride
+         //   this.selectVehicle.isCarSelected = true;//to be changed on basis of primary vehicleor previous ride
           }
           else if (((<OfferRide>this.rideTypeObj).vehicleList[i].isBikeSelected)) {
             this.vehicleIsBike = <Bike>(<OfferRide>this.rideTypeObj).vehicleList[i];
-            alert("bike ARRAY" + JSON.stringify(this.vehicleIsBike));
-            this.selectVehicle.isBikeSelected = true;//to be changed on basis of primary vehicle or previous ride
-            this.selectVehicle.isCarSelected = false;//to be changed on basis of primary vehicleor previous ride
+        
+            this.vehicleIsCar.isCarSelected=false;
+      this.vehicleIsBike.isBikeSelected=true;
+        //    this.selectVehicle.isBikeSelected = true;//to be changed on basis of primary vehicle or previous ride
+        //    this.selectVehicle.isCarSelected = false;//to be changed on basis of primary vehicleor previous ride
           }
 
         }
       }
     }
   }
-  public onClickVehicle(event) {
-    if (event.target.id == "car") {
+  public onClickVehicle(event: string) {
+
+    if (event == "car") {
 
       document.getElementById("car").style.backgroundColor = "blue";
       document.getElementById("bike").style.backgroundColor = "";
-      this.selectVehicle.isCarSelected = true;
-      this.selectVehicle.isBikeSelected = false;
-    } else if (event.target.id == "bike") {
+      this.vehicleIsCar.isCarSelected=true;
+      this.vehicleIsBike.isBikeSelected=false;
+      //this.selectVehicle.isCarSelected = true;
+     // this.selectVehicle.isBikeSelected = false;
+    } else if (event == "bike") {
 
       document.getElementById("car").style.backgroundColor = "";
       document.getElementById("bike").style.backgroundColor = "blue";
-      this.selectVehicle.isCarSelected = false;
-      this.selectVehicle.isBikeSelected = true;
+      this.vehicleIsCar.isCarSelected=false;
+      this.vehicleIsBike.isBikeSelected=true;
+     // this.selectVehicle.isCarSelected = false;
+      //this.selectVehicle.isBikeSelected = true;
 
     }
   }
@@ -178,12 +239,12 @@ export class HomeFormComponent extends MapComponent implements OnInit {
 
   public addVehicle(): void {
 
-    if (this.selectVehicle.isBikeSelected) {
-      alert("iscar" + JSON.stringify(this.vehicleIsBike));
+    if (this.vehicleIsBike.isBikeSelected) {
+    
       (<OfferRide>this.rideTypeObj).vehicleList.push(<Bike>this.vehicleIsBike);
 
-    } else if (this.selectVehicle.isCarSelected) {
-      alert("iscar" + JSON.stringify(this.vehicleIsCar));
+    } else if (this.vehicleIsCar.isCarSelected) {
+  
       (<OfferRide>this.rideTypeObj).vehicleList.push(<Car>this.vehicleIsCar);
     }
 
@@ -193,14 +254,29 @@ export class HomeFormComponent extends MapComponent implements OnInit {
 
   ////////////////////////////////MAPS//////////////////////////////////////////////////////////////////////////////////////////
 
+  public setAddress(Address: LocationAddress) {
+    if (this.point1 == 'start') {
+      this.rideTypeObj.startRide = Address;
+      this.start = Address.formattedAddress;
 
+    }
+    else if (this.point1 == 'end') {
+      this.rideTypeObj.endRide = Address;
+      this.end = Address.formattedAddress;
+    }
+    if (this.rideTypeObj.endRide.latitude != 0) {
+      this.getDirection(this.rideTypeObj.startRide.latitude, this.rideTypeObj.startRide.longitude, this.rideTypeObj.endRide.latitude, this.rideTypeObj.endRide.longitude);
+
+      //   getdistance(this.lat,this.lng,this.dlat,this.dlng);
+    }
+  }
 
 
 
   public handleAddressChange(address: Address) {
     // Do some stuff
     let locationAddress = new LocationAddress();
-    alert(JSON.stringify(this.rideTypeObj));
+ 
     if (this.point1 == 'start') {
 
 
@@ -227,7 +303,7 @@ export class HomeFormComponent extends MapComponent implements OnInit {
       //   getdistance(this.lat,this.lng,this.dlat,this.dlng);
     }
 
-    alert(JSON.stringify(this.rideTypeObj));
+  
   }
 
 
@@ -256,7 +332,7 @@ export class HomeFormComponent extends MapComponent implements OnInit {
 
     this.rideTypeObj.startRide.latitude = event.coords.lat;
     this.rideTypeObj.startRide.longitude = event.coords.lng
-    alert(this.rideTypeObj.startRide.latitude);
+ 
     this.getDirection(this.rideTypeObj.startRide.latitude, this.rideTypeObj.startRide.longitude, this.rideTypeObj.endRide.latitude, this.rideTypeObj.endRide.longitude);
 
   }
@@ -293,7 +369,7 @@ export class HomeFormComponent extends MapComponent implements OnInit {
       maximumAge: 0
     };
     navigator.geolocation.getCurrentPosition(this.success, this.error, options);
-    // alert(JSON.stringify(navigator.geolocation.getCurrentPosition(this.success)));
+   
 
   }
 
@@ -306,10 +382,16 @@ export class HomeFormComponent extends MapComponent implements OnInit {
 
   /////////////////////////////////////MAPS////////////////////////////////////////////////////////////
 
+  /////////////////////////////////////////////dialog///////////////////////////////////////////////////////
 
+  // openDialog(): void {
+  //    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+  //      width: '250px',
+  //     // data: {name: this.name, animal: this.animal}
+  //    });
+  //  }
 
-
-
+  /////////////////////////////////////////////dialog///////////////////////////////////////////////////////
 
 
 
@@ -355,6 +437,34 @@ export class HomeFormComponent extends MapComponent implements OnInit {
     'Super Hot', 'Weather Changer'];
   model = new Hero(18, 'Dr IQ', this.powers[0], '', '', 'Chuck Overstreet');
 
+  public setPanel() {
+    return document.querySelector('#myPanel');
+  }
+
+  travelMode: string = 'DRIVING';
+
+  public renderOptions: any = {
+    draggable: true,
+    suppressMarkers: true,
+    suppressInfoWindows: false,
+    markerOptions: { // effect all markers
+      //   icon: '../icon.png',
+    },
+  }
+
+  public markerOptions = {
+    origin: {
+      infoWindow: 'This is origin.',
+      // icon: '../icon.png',
+      draggable: false,
+    },
+    destination: {
+      //  icon: '../icon.png',
+      label: 'marker label',
+      opacity: 0.8,
+    },
+  }
+
   onClickMe(event: any) {
     this.point1 = event.target.id;
 
@@ -376,14 +486,13 @@ export class HomeFormComponent extends MapComponent implements OnInit {
   c: Car = new Car();
   onSave() {
 
-    alert(JSON.stringify(new OfferRide()));
+ 
 
     //this.cl;
 
-    alert(JSON.stringify(this.bike));
-    alert(JSON.stringify(this.c));
+   
 
-    alert(this.bike.getOfferingSeats());
+   
   }
   submitted = false;
 

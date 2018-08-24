@@ -1,6 +1,9 @@
-import { appUser } from '../security/app-user';
+import { cacheMemory } from '../../model/constant';
+import { User } from '../../model/user';
+
 import { appUsersAuth } from '../security/app-users-auth';
 import { LOGIN_MOCKS } from '../security/mocklogin';
+import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
@@ -9,19 +12,24 @@ import { Observable, of } from 'rxjs';
 })
 export class LoginSecurityService {
 securityObject:appUsersAuth=new appUsersAuth();
-  constructor() { }
+  constructor(private dataService:DataService) { }
   
-  login(entity:appUser):Observable<appUsersAuth>
+  login(entity:User):Observable<appUsersAuth>
   {
-     alert(JSON.stringify(entity.userName))
+    
    
   this.resetSecurityObject();
+    this.dataService.updateUser(new User());
+   if(cacheMemory.get("loginId")!=null)
+   cacheMemory.set(<string>cacheMemory.get("loginId"),null);
+        cacheMemory.set("loginId",null);//to be put in method
+    cacheMemory.set("userDetails",null);//to be put in method
     Object.assign(this.securityObject,
     LOGIN_MOCKS.find(user=>user.userName.toLowerCase()==entity.userName.toLowerCase()
     
   )
     );  
-   alert(JSON.stringify(this.securityObject))
+ 
     if(this.securityObject.userName!==" ")
       {
 localStorage.setItem("bearerToken",this.securityObject.bearerToken);}
@@ -31,7 +39,14 @@ localStorage.setItem("bearerToken",this.securityObject.bearerToken);}
   
   logout():void
   {
+   
+      //this.dataService.updateUser(new User());
   this.resetSecurityObject();
+      
+     cacheMemory.set(<string>cacheMemory.get("loginId"),null);
+          cacheMemory.set("loginId",null);//to be put in method
+    cacheMemory.set("userDetails",null);//to be put in method
+   
   }
   
   resetSecurityObject():void
@@ -44,7 +59,7 @@ localStorage.setItem("bearerToken",this.securityObject.bearerToken);}
  this.securityObject.canViewRide=false;
  this.securityObject.canViewWallet=false;
 this.securityObject.canViewSettings=false;
-      alert(JSON.stringify(this.securityObject))
+    
     localStorage.removeItem("bearerToken");
   }
   

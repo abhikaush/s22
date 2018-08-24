@@ -9,15 +9,21 @@ public rideId:string;
   public startRide: LocationAddress;
 
   public endRide: LocationAddress;
-  public time: Date;
-  public Day: Date;
+  public time: Date=new Date();
+  public Day: Date =new Date();
   public isRideType:string;
   constructor() {
-    this.isRideType="take";
-    this.isTakeRide=true;
+  
     this.startRide = new LocationAddress();
     this.endRide = new LocationAddress();
   }
+  
+  public setIsRideType(RideType:string)
+  {
+  this.isRideType=RideType;
+  }
+  
+  
   public getIsTakeRide(): boolean {
 
     return this.isTakeRide;

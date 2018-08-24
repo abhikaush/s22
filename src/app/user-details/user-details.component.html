@@ -1,3 +1,96 @@
-<p>
-  user-details works!
-</p>
+<div class="container">
+
+  <mat-card class="example-card">
+      <mat-card-content>
+        <h2 class="example-h2">User Profile</h2>
+        
+        <mat-list>
+  <mat-list-item>Name: {{user.userName}}</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>companyName: {{user.companyName}}</mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>Email: {{user.userEmail}}</mat-list-item>
+   <mat-divider></mat-divider>
+  <mat-list-item>Phone: {{user.userPnoneNumber}}</mat-list-item>
+</mat-list>
+        <mat-grid-list cols="3" rowHeight="70px"> 
+        <mat-grid-tile>
+		<mat-chip-list>
+  <mat-chip>Total Ride taken<p> {{user.allRides.length}}</mat-chip>
+ 
+</mat-chip-list>
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		<mat-chip-list>
+  <mat-chip>Ride Offered <p> {{user.allRides.length}}</mat-chip>
+ 
+</mat-chip-list>
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		<mat-chip-list>
+  <mat-chip>Ride Taken <p> {{user.allRides.length}}</mat-chip>
+
+</mat-chip-list>
+			  </mat-grid-tile>
+			   </mat-grid-list>
+			   
+	  </mat-card-content>
+    </mat-card>		   
+			   
+			   <mat-grid-list cols="2" rowHeight="140px"> 
+        <mat-grid-tile>
+ <button mat-button color="primary" (click)="onClickMe('home')" id="home" *ngIf="!user.isUserHomeaddressFilled">Add Home Adderss</button>
+ <mat-accordion *ngIf="user.isUserHomeaddressFilled">
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false" style="width:100%">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       Home Address
+      </mat-panel-title>
+      <mat-panel-description><button mat-button color="primary" (click)="onClickMe('home')">Edit</button>
+    <button mat-button color="primary" >Save</button>
+        Click to {{panelOpenState ? 'close' : 'open'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>{{user.homeAddress.formattedAddress}}</p>
+  </mat-expansion-panel>
+ </mat-accordion>
+ 
+			  </mat-grid-tile>
+			     <mat-grid-tile>
+ <button mat-button color="primary" (click)="onClickMe('office')" id="office" *ngIf="!user.isUserOfficeaddressFilled">Add Office Address</button>
+			  <mat-accordion *ngIf="user.isUserOfficeaddressFilled">
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false" style="width:100%">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       Office Address
+      </mat-panel-title>
+      <mat-panel-description><button mat-button color="primary" (click)="onClickMe('office')">Edit</button>
+    <button mat-button color="primary" >Save</button>
+        Click to {{panelOpenState ? 'close' : 'open'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>{{user.officeAdderss.formattedAddress}}</p>
+  </mat-expansion-panel>
+ </mat-accordion>
+	
+			  </mat-grid-tile>
+			   </mat-grid-list>
+       
+        
+       <div  [hidden]="startFlag" class="autocomplete" >
+     <mat-form-field  floatLabel="always" style="width:100%">
+      <mat-label>select location</mat-label>
+          <input matInput class="form-control" placeholder="enter the location " (onAddressChange)="onClickdiv($event)" ngx-google-places-autocomplete  name="start"  id='ends' 
+[options]="{
+    types: [],
+    componentRestrictions: { country: 'IN' },
+    style:[]   
+    }"  (onAddressChange)="handleAddressChange($event)"/>
+        </mat-form-field>
+        <br>
+        <button mat-button (click)="onClickdiv($event)">choose from map</button>
+    </div>
+    
+</div>

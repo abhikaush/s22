@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container" >
 
 
 <agm-map  [latitude]="rideTypeObj.startRide.latitude" [longitude]="rideTypeObj.startRide.longitude" [zoom]=10.8 (mapClick)="pickLocationOnMapclick($event)">
@@ -11,28 +11,35 @@
 </agm-map>
 </div>
 
-<form class="form-group-sm" ngSubmit="onSubmit()" #Ride="ngForm">
+<form class="example-form" ngSubmit="onSubmit()" >
+<mat-radio-group [(ngModel)]="rideTypeObj.isRideType"  (change)="selectRide()" class="example-radio-group" name="rideType">
   <div class="form-row">
     <div class="radio form-group col-6">
-  
-  <label>  <input  type="radio"  name="rideType"  [(ngModel)]="rideTypeObj.isRideType" value="take" (change)="selectRide()" > Take</label>
-    </div>
+  <mat-radio-button   value="take" >Take</mat-radio-button>
+  <!--  <label>  <input  type="radio"  name="rideType"  [(ngModel)]="rideTypeObj.isRideType" value="take" (change)="selectRide()" > Take</label>
+    --> </div>
     <div class="radio form-group col-6">
-
-   <label> <input type="radio"  name="rideType" checked [(ngModel)]="rideTypeObj.isRideType" value="offer" (change)="selectRide()" >offer</label>
-    </div>
+ <mat-radio-button   value="offer"  >Offer</mat-radio-button>
+  <!--  <label> <input type="radio"  name="rideType" checked [(ngModel)]="rideTypeObj.isRideType" value="offer" (change)="selectRide()" >offer</label>
+     --></div>
   </div>
+  </mat-radio-group>
 
   <div class="form-row">
     <div class="form-group col-6">
-      <label for="start">From</label>
-      <input type="Text" class="form-control" (click)="onClickMe($event)" [(ngModel)]="rideTypeObj.startRide.formattedAddress" placeholder="From"  id="start" name="start">
-  
+    <mat-form-field class="example-full-width" floatLabel="always">
+      <mat-label>From</mat-label>
+          <input matInput  placeholder="Select pickup point" (click)="onClickMe($event)" [(ngModel)]="rideTypeObj.startRide.formattedAddress" id="start" name="start"/>
+        </mat-form-field>
+     
     </div>
     <div class="form-group col-6">
-      <label for="end">To</label>
-      <input type="Text" class="form-control" (click)="onClickMe($event)" id="end" [(ngModel)]="rideTypeObj.endRide.formattedAddress"  placeholder="To"  name="end">
-
+    
+    <mat-form-field class="example-full-width" floatLabel="always">
+      <mat-label>To</mat-label>
+          <input matInput placeholder="Select End point" (click)="onClickMe($event)" id="end" [(ngModel)]="rideTypeObj.endRide.formattedAddress"   name="end"/>
+        </mat-form-field>
+     <!-- <button (click)="openDialog()">clik</button> -->
     </div>
   </div>
 
@@ -42,7 +49,11 @@
     
     
   <div class="form-group">
-     <input type="Text" class="form-control" id="endj"  placeholder="To"  name="end" >
+   <mat-form-field>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
     </div>
   
 
@@ -52,115 +63,258 @@
     
      <div class="form-group-sm col-6" id="ride" style="border-bottom: 1px solid lightgrey;padding-left: 0px;">
      
-     <select [hidden]="!rideTypeObj.isTakeRide">
-     <option>1</option>
-     <option>2</option>
-     <option>3</option>
-     <option>4</option>
-     <option>5</option>
+
+     
+      <mat-form-field [hidden]="!rideTypeObj.isTakeRide">
+    <mat-select placeholder="Select no of seats" [(ngModel)]="selectedValue" name="seats">
+      <mat-option *ngFor="let number of [1,2,3,4,5]" [value]="number">
+        {{number}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   
+     <mat-form-field  [hidden]="!rideTypeObj.isOfferRide"  >
+
+       <input matInput id="selectCar" name="input" placeholder="Select Vehicle"  
+       class="form-group-sm col-md-6"  data-toggle="modal" data-target="#exampleModal" [value]="vehicleIsCar.isCarSelected ? 'Car' : 'Bike' "/>
+ 
+    
+  
+     </mat-form-field>
      
-     
-     </select>
-     
-      <div id="selectCar" class="form-group-sm col-md-6" [hidden]="!rideTypeObj.isOfferRide" data-toggle="modal" data-target="#exampleModal" style="border-bottom: 1px solid lightgrey;width: 410px;height: 25px;padding-left: 0px;">
-    </div>
+  
    
     </div>
     
   </div>    
     </form>  
     
-   <!-- model --> 
-    
-    
-    
-    
-    
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
+ 
+    <!--material model--->
+     <!--material model--->
+      
+     <div class="modal fade"  id="exampleModal"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog"  role="document" >
+  
+    <div class="row" style='width: 1000px;'>
+    <div class="col">
+     <div class="modal-content">
+     
+     
       <div class="modal-body">
-       <div class="radio form-group col-12 d-flex">
-      <input id="bike" type="button" name="vehicle" #bikeButton (click)=onClickVehicle($event); value="bike" class="btn btn-outline-success w-50 mr-2 form-group-sm"/>
-      <input id="car" type="button" name="vehicle" #carButton  (click)=onClickVehicle($event); value="car" class="btn btn-danger w-50 form-group-sm"/>
-              </div>
-           <div [hidden]="!selectVehicle.isBikeSelected">   
-               <form class="form-group-sm" ngSubmit="onSubmit()" #bike="ngForm">
-                <select name="opt" [(ngModel)]="vehicleIsBike.bikeType" id="bikeSelect">
-   <option>Sports Bike</option>
-   <option>ScooterRegular BIke</option>
-   <option>Regular BIke</option>
-   <option>Cruise Bike</option>
-   
-   </select>
-          <div class="form-row">
-   
+      
+      <mat-grid-list cols="2" rowHeight="60px">
+  <mat-grid-tile ><span id="bike" (click)="onClickVehicle('bike')"><button mat-button color="primary"   name="vehicle"   value="bike" ><mat-icon > motorcycle</mat-icon>Bike</button></span></mat-grid-tile>
+  <mat-grid-tile ><span id="car" (click)="onClickVehicle('car')"><button mat-button color="primary"   name="vehicle"    value="car"><mat-icon >directions_car</mat-icon>Car</button></span></mat-grid-tile>
+ 
+</mat-grid-list>
+
+ <div [hidden]="!vehicleIsBike.isBikeSelected">
+
+ <form  ngSubmit="onSubmit()" >
+
+<mat-grid-list cols="1" rowHeight="65px"  >
+
+  <mat-grid-tile>
   
-  <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.regNo"   name="regNo"> regno</label>
-  
-   <label>  <input class="form-group-sm" type="Checkbox" [(ngModel)]="vehicleIsBike.Helmate"  name="Helmate"  > Does helmet to be carried by pillion rider</label>
-       </div>
-      <div class="form-row">
-    <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.farePerKm" name="farePerKm" > Fare/KM</label>
-     <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.offeringSeats" name="offeringSeats"  > Offering Seats</label>
-      </div>
-       <div class="form-row">
-      <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsBike.category" placeholder="Make & Category (Ex. Black CBR)" name="cat" > </label>
-    </div>
-    </form>
-    </div>
-    <div [hidden]="!selectVehicle.isCarSelected">
-     <form class="form-group-sm" ngSubmit="onSubmit()" #Car="ngForm">
-          <div class="form-row">
-   <select name="opt" id="carSelect" [(ngModel)]="vehicleIsCar.carType">
-   <option>Hatch Back</option>
-   <option>Sedan</option>
-   <option>SUV</option>
-   <option>Premium</option>
+  <mat-form-field >
    
-   </select>
+    <mat-select    [(ngModel)]="vehicleIsBike.bikeType" name="bikeSelect"  id="bikeSelect" >
+      <mat-option >Sports Bike</mat-option>
+       <mat-option >Scooter</mat-option>
+        <mat-option >Regular Bike</mat-option>
+         <mat-option >Cruise Bike</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Reg No" [(ngModel)]="vehicleIsBike.regNo"   name="regNo"/>
   
-  <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.regNo" name="regNo" value="" > regno</label>
-   <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.farePerKm" name="farePerKm" value="" > Fare/KM</label>
-       </div>
-      <div class="form-row">
-    <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.offeringSeats" name="offeringSeats" value="" > offering Seats</label>
-     <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.category" name="category" placeholder="Make & category (EX. Red swift)" value="" > </label>
-      </div>
-       <div class="form-row">
-      <label>  <input class="form-group-sm" type="text" [(ngModel)]="vehicleIsCar.features" name="features"  placeholder="Features" value="" > </label>
-    </div>
-    </form>
-    </div>
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile>
+ 
+   <mat-checkbox class="example-margin" [(ngModel)]="vehicleIsBike.Helmate"   name="Helmate">"Does helmet to be carried by pillion rider"</mat-checkbox>
+ </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Fare/km"  [(ngModel)]="vehicleIsBike.farePerKm" name="farePerKm"/>
+  
+  </mat-form-field></mat-grid-tile>
+   <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Offering Seats" [(ngModel)]="vehicleIsBike.offeringSeats" name="offeringSeats" />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsBike.category" placeholder="Make & Category (Ex. Black CBR)" name="cat" />
+  
+  </mat-form-field></mat-grid-tile>
     
-    
+</mat-grid-list>
+</form>
+ </div>
+  
+  <div [hidden]="!vehicleIsCar.isCarSelected">
+ <form  ngSubmit="onSubmit()" >
+ 
+  <mat-grid-list cols="1" rowHeight="65px"  >
+
+  <mat-grid-tile>
+ 
+  <select class="form-control" [(ngModel)]="vehicleIsCar.carType" name="carSelect"  id="carSelect">
+  <option>Hatch Back</option>
+  <option>Sedan</option>
+  <option>SUV</option>
+  <option>Premium</option>
+</select>
+  
+  </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Reg No" [(ngModel)]="vehicleIsCar.regNo" name="regNo"/>
+  
+  </mat-form-field></mat-grid-tile>
+
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Fare/km"  [(ngModel)]="vehicleIsCar.farePerKm" name="farePerKm" />
+  
+  </mat-form-field></mat-grid-tile>
+   <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Offering Seats" [(ngModel)]="vehicleIsCar.offeringSeats" name="offeringSeats"  />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsCar.category" name="category" placeholder="Make & category (EX. Red swift)"  />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsCar.features" name="features"  placeholder="Features (Ex. Music system /AC)"   />
+  
+  </mat-form-field></mat-grid-tile>
+  
+</mat-grid-list>
+   </form>
+    </div>
     
       </div>
       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"  data-dismiss="modal" (click)=addVehicle();>Save changes</button>
+      <div class="modal-footer" >
+        <button mat-button data-dismiss="modal">Cancle</button>
+        <button mat-button  data-dismiss="modal" (click)=addVehicle();>Add Vehicle</button>
       </div>
     </div>
-  </div>
+    
+    </div>
+    <div class="col">
+     <div class="modal-content">
+     
+     
+      <div class="modal-body">
+      
+      <mat-grid-list cols="2" rowHeight="60px">
+  <mat-grid-tile ><span id="bike" (click)="onClickVehicle('bike')"><button mat-button color="primary"   name="vehicle"   value="bike" ><mat-icon > motorcycle</mat-icon>Bike</button></span></mat-grid-tile>
+  <mat-grid-tile ><span id="car" (click)="onClickVehicle('car')"><button mat-button color="primary"   name="vehicle"    value="car"><mat-icon >directions_car</mat-icon>Car</button></span></mat-grid-tile>
+ 
+</mat-grid-list>
+
+ <div [hidden]="!vehicleIsBike.isBikeSelected">
+
+ <form  ngSubmit="onSubmit()" >
+
+<mat-grid-list cols="1" rowHeight="65px"  >
+
+  <mat-grid-tile>
+  
+  <mat-form-field >
+   
+    <mat-select    [(ngModel)]="vehicleIsBike.bikeType" name="bikeSelect"  id="bikeSelect" >
+      <mat-option >Sports Bike</mat-option>
+       <mat-option >Scooter</mat-option>
+        <mat-option >Regular Bike</mat-option>
+         <mat-option >Cruise Bike</mat-option>
+    </mat-select>
+  </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Reg No" [(ngModel)]="vehicleIsBike.regNo"   name="regNo"/>
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile>
+ 
+   <mat-checkbox class="example-margin" [(ngModel)]="vehicleIsBike.Helmate"   name="Helmate">"Does helmet to be carried by pillion rider"</mat-checkbox>
+ </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Fare/km"  [(ngModel)]="vehicleIsBike.farePerKm" name="farePerKm"/>
+  
+  </mat-form-field></mat-grid-tile>
+   <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Offering Seats" [(ngModel)]="vehicleIsBike.offeringSeats" name="offeringSeats" />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsBike.category" placeholder="Make & Category (Ex. Black CBR)" name="cat" />
+  
+  </mat-form-field></mat-grid-tile>
+    
+</mat-grid-list>
+</form>
+ </div>
+  
+  <div [hidden]="!vehicleIsCar.isCarSelected">
+ <form  ngSubmit="onSubmit()" >
+ 
+  <mat-grid-list cols="1" rowHeight="65px"  >
+
+  <mat-grid-tile>
+ 
+  <select class="form-control" [(ngModel)]="vehicleIsCar.carType" name="carSelect"  id="carSelect">
+  <option>Hatch Back</option>
+  <option>Sedan</option>
+  <option>SUV</option>
+  <option>Premium</option>
+</select>
+  
+  </mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Reg No" [(ngModel)]="vehicleIsCar.regNo" name="regNo"/>
+  
+  </mat-form-field></mat-grid-tile>
+
+  <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Fare/km"  [(ngModel)]="vehicleIsCar.farePerKm" name="farePerKm" />
+  
+  </mat-form-field></mat-grid-tile>
+   <mat-grid-tile><mat-form-field >
+  <input matInput placeholder="Offering Seats" [(ngModel)]="vehicleIsCar.offeringSeats" name="offeringSeats"  />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsCar.category" name="category" placeholder="Make & category (EX. Red swift)"  />
+  
+  </mat-form-field></mat-grid-tile>
+  <mat-grid-tile><mat-form-field >
+  <input matInput [(ngModel)]="vehicleIsCar.features" name="features"  placeholder="Features (Ex. Music system /AC)"   />
+  
+  </mat-form-field></mat-grid-tile>
+  
+</mat-grid-list>
+   </form>
+    </div>
+    
+      </div>
+      
+      <div class="modal-footer" >
+        <button mat-button data-dismiss="modal">Cancle</button>
+        <button mat-button  data-dismiss="modal" (click)=addVehicle();>Add Vehicle</button>
+      </div>
+    </div>
+    
+    </div>
+    </div>
+  
+     </div>
 </div>
 
-
-
-<!-- model -->
     
     
-    
-    
-    
-    
+     <!--material model--->
     
     
     
@@ -171,7 +325,7 @@
 
    <div class="form-row" >
    
- <button  type="submit" class="btn btn-success col-md-12" >Submit</button>
+ <button mat-button color="primary" type="submit" class="btn btn-success col-md-12" >Submit</button>
 </div>
 
   
@@ -185,14 +339,22 @@
  
     
 <div  [hidden]="startFlag" class="autocomplete" >
- <!--  <a href="" class="closebtn" (click)="onClickdiv()">&times;</a> -->
-<input class="form-control" (onAddressChange)="onClickdiv($event)" ngx-google-places-autocomplete  name="start"  id='ends' 
+     <mat-form-field  floatLabel="always" style="width:100%">
+      <mat-label>select location</mat-label>
+          <input matInput class="form-control" placeholder="enter the location " (onAddressChange)="onClickdiv($event)" ngx-google-places-autocomplete  name="start"  id='ends' 
 [options]="{
     types: [],
     componentRestrictions: { country: 'IN' },
     style:[]   
     }"  (onAddressChange)="handleAddressChange($event)"/>
-    <div (click)="onClickdiv($event)">choose from map</div>
+        </mat-form-field>
+        <br>
+        <button mat-button (click)="onClickdiv($event)">choose from map</button>
+         <button mat-button (click)="onClickdiv($event)" *ngIf="user.isUserHomeaddressFilled" 
+         (click)="setAddress(user.homeAddress)" matTooltip={{user.homeAddress.formattedAddress}}
+         ><mat-icon>account_balance</mat-icon>choose Home Address</button>
+          <button mat-button (click)="onClickdiv($event)" *ngIf="user.isUserOfficeaddressFilled" 
+          (click)="setAddress(user.officeAdderss)" matTooltip={{user.officeAdderss.formattedAddress}} ><mat-icon>work_outline</mat-icon>choose Office Address</button>
     </div>
 
 
