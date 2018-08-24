@@ -1,18 +1,19 @@
- <div class="pos-f-t">
- 
- <nav class="navbar navbar-light bg-light border border-info">
-   <button class="navbar-toggler btn-outline-success border border-info" type="button" (click)="openNav()">
-     <span class="navbar-toggler-icon "></span>
-   </button>
+<mat-toolbar >
+  <mat-toolbar-row>
+
   
- </nav>
+  <span (click)="sidenav.toggle()"><button mat-button color="primary"><mat-icon>menu</mat-icon></button></span>
+ <span ><button mat-button color="primary" routerLink="/home">  <mat-icon >home</mat-icon></button></span> 
+  <span class="example-spacer"></span>  <span class="right" *ngIf="!securityObject.isAuthinticated" (click)="login()">   <button mat-button color="primary"> Login</button></span>
+<span class="right" *ngIf="!securityObject.isAuthinticated" >   <button mat-button color="primary"  routerLink="/register">  Sign Up</button></span>
+        <span class="right" *ngIf="securityObject.isAuthinticated" (click)="logout()">   <button mat-button color="primary"> Logout</button></span>
+         <span class="right" *ngIf="securityObject.isAuthinticated">   <span class="example-spacer"></span><button mat-button color="primary" routerLink="/userDetails">Welcome {{ securityObject.userName}}!!</button></span>  
+  </mat-toolbar-row>
+
+</mat-toolbar> 
  
- 
-  
-</div>
 
-
-
+<!-- 
   <div id="nav" class="nav" style="display:block">
   
     <a *ngIf="securityObject.isAuthinticated" (click)="logout()">logout {{ securityObject.userName}}</a>
@@ -24,6 +25,83 @@
   <a href="#" routerLink="/vehicle">My Vehicle</a>
   <a href="#" routerLink="/offers">My Offers</a>
   <a href="#" routerLink="/settings">Settings</a>
-</div>
+</div> -->
 
+ <mat-sidenav #sidenav mode="over" class="app-sidenav nav" color="primary">
+    <mat-toolbar (click)="sidenav.toggle()">
+    <mat-toolbar-row style="height:5%">  <span class="example-spacer"></span> <mat-icon>close</mat-icon></mat-toolbar-row>
+     <mat-toolbar-row style="height:35%">
+   
+    <mat-card class="example-card">
+  <mat-card-header>
+   <mat-card-title >
+         <div mat-card-avatar class="example-header-image" > </div>
+    
+    </mat-card-title>
+    <mat-card-subtitle>
+    <span routerLink="/userDetails" *ngIf="securityObject.isAuthinticated"><button mat-button  >{{ securityObject.userName}}</button></span>
+       <span routerLink="/login" *ngIf="!securityObject.isAuthinticated"><button mat-button>Login</button></span>
+ 
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content>
+ <span>Total ride</span><span>Offered Rides</span><span>Take Ride</span>
+  </mat-card-content>
+  <mat-card-actions>
+    
+  </mat-card-actions>
+</mat-card>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+     <div >
+      
+   </div>
+          </mat-toolbar-row>
+       
+      <mat-toolbar-row>
+         <span routerLink="/myRide"><button mat-button>My Rides</button></span>
+      </mat-toolbar-row>
+
+      <mat-toolbar-row>
+        <span routerLink="/myRide"><button mat-button>My Wallet
+        <span class="app-toolbar-filler"></span>
+        <mat-icon class="example-icon">account_circle</mat-icon></button></span>
+      </mat-toolbar-row>
+
+      <mat-toolbar-row>
+      <span routerLink="/vehicle"><button mat-button>My Vehicle</button></span>
+       
+      </mat-toolbar-row>
+
+      <mat-toolbar-row>
+        <span routerLink="/offers"><button mat-button>My Offers
+        <span class="app-toolbar-filler"></span>
+        <mat-icon class="example-icon">favorite</mat-icon></button></span>
+      </mat-toolbar-row>
+
+      <mat-toolbar-row>
+        <span routerLink="/settings"><button mat-button>Settings
+          <mat-icon class="example-icon">delete</mat-icon></button></span>
+         
+    
+      </mat-toolbar-row>
+
+    </mat-toolbar>
+  </mat-sidenav>
 

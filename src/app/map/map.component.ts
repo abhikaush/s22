@@ -1,6 +1,7 @@
 import { LocationAddress } from '../../model/locationAddress';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Address } from './objects/address';
+import { MatDialogRef } from '@angular/material';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 //declare function getdistance(slat,slng,elat,elng): any;
@@ -25,18 +26,19 @@ export class MapComponent implements OnInit {
 
   
   
-startFlag:boolean =true;
+
 constructor() {
-  this.locAdd = new LocationAddress();
+ 
  
    
   
   
   }
-point1:string='';
+
   
   
-  
+ 
+
   
   
   ngOnInit() {
@@ -45,7 +47,7 @@ point1:string='';
 
   
   
-   @ViewChild("placesRef") placesRef : GooglePlaceDirective;
+ 
   
   
   
@@ -55,39 +57,17 @@ point1:string='';
 //  dlat: number = 0;
 //  dlng: number = 0;
 
-  travelMode : string='DRIVING';
+
   
-   public renderOptions: any = {
-    draggable: true,
-    suppressMarkers: true,
-    suppressInfoWindows: false,
-    markerOptions: { // effect all markers
-     //   icon: '../icon.png',
-    },
-}
-  public setPanel() {
-    return document.querySelector('#myPanel');
-}
   
   
   
 
-public markerOptions = {
-    origin: {
-        infoWindow: 'This is origin.',
-       // icon: '../icon.png',
-        draggable: false,
-    },
-    destination: {
-      //  icon: '../icon.png',
-        label: 'marker label',
-        opacity: 0.8,
-    },
-}
+
   
   
   //test
-           el:number = 0;
+          // el:number = 0;
 //        public handleAddressChange(address: Address) {
 //        // Do some stuff
 // 

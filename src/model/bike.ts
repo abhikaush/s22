@@ -12,6 +12,8 @@ export class Bike extends Vehicle {
 
   constructor() {
     super();
+    this.isCarSelected=false;
+    this.isBikeSelected=true;
   }
 
   public getBikeType(): string {

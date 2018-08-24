@@ -9,6 +9,31 @@ agm-map {
   height: 400px;
   position:static;
 }
+.mat-select-content{
+	position:relative;
+background:rgba(255, 0, 0, 0.5);
+z-index:100;
+overflow:visible;
+}
+
+model-option{
+	z-index:1;
+}
+. .mat-select-content{
+	color:red;
+	z-index:1001;
+}
+mat-form-field{
+	width:100%;
+}
+.example-form {
+
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
 
 	
 	
@@ -65,9 +90,9 @@ input[type=submit] {
     position:fixed;
     z-index: 1;
     top: 0;
-    left: 0px;
-    background-color: #c0c0c0;
+    left: 0;
+    background-color: #ffffff;
    
-    transition: 0.5s;
-    padding-top: 60px;
+    transition: 0;
+    padding-top: 30px;
 }

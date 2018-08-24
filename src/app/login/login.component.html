@@ -13,21 +13,29 @@
   <div class="row">
    
    <div   class="col-sm-12">
- <label>phone<input [(ngModel)]="user.userName" name="phone" type="text" id="phone"></label>
+   <mat-form-field class="example-full-width" >
+    
+          <input matInput placeholder="Phone Or Email"  [(ngModel)]="user.userName" name="phone" type="text" id="phone"/>
+        </mat-form-field>
+ 
    </div>
   </div>
   
   <div class="row">
    
    <div   class="col-sm-12">
- <label>password<input [(ngModel)]="user.password" name="password" type="password" id="password"></label>
+      <mat-form-field class="example-full-width" >
+    
+          <input matInput placeholder="Password"  [(ngModel)]="user.userPassword" name="password" type="password" id="password"/>
+        </mat-form-field>
+ 
    </div>
   </div>
 
     <div class="row">
    
    <div   class="col-sm-12">
-<button type="button" id="submit" (click)="login()">submit</button>
+<button mat-button color="primary" type="button" id="submit" (click)="login()">submit</button>
    </div>
   </div>
 </form>

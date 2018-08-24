@@ -17,10 +17,13 @@ import { SettingsComponent } from './settings/settings.component';
 import { MyVehicleComponent } from './my-vehicle/my-vehicle.component';
 import { MyOffersComponent } from './my-offers/my-offers.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { AppMaterialModule } from './app.material.module';
 import { RegisterComponent } from './register/register.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { LoginComponent } from './login/login.component';
 import { FindRideComponent } from './find-ride/find-ride.component';
+import { DataResolveService } from './service/data-resolve.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,9 @@ import { FindRideComponent } from './find-ride/find-ride.component';
     HttpClientInMemoryWebApiModule.forRoot(
   InMemoryDataService, 
     { dataEncapsulation: false }  
-    ), HttpClientModule, AppRoutingModule
+    ), HttpClientModule, AppRoutingModule,
+     AppMaterialModule,
+     BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

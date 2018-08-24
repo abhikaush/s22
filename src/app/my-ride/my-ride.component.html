@@ -1,8 +1,181 @@
 <div class="container">
-  <div class="row">
-    <button class="col-sm-4">Upcoming Rides</button>
-    <button class="col-sm-4">Past Rides</button>
-    <button class="col-sm-4">reoccuring ride</button>
-  </div>
+ 
+
+  
+<mat-tab-group  >
+  <mat-tab label="Upcoming Rides"> Upcoming Rides
+  
+  <mat-card class="example-card" *ngFor="let ride of ridelist" style="border:1px">
+      <mat-card-content>
+        <mat-grid-list cols="3" rowHeight="200px"> 
+        <mat-grid-tile>
+		
+ FROM: {{ride.startRide.formattedAddress}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+TIME: {{ride.time}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+TO: {{ride.endRide.formattedAddress}}
+
+
+			  </mat-grid-tile>
+			   </mat-grid-list>
+      	    
+       
+
+ <mat-accordion >
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false" style="width:100%">
+    <mat-expansion-panel-header style="height:300px">
+      <mat-panel-title>
+    <b>  {{ ride.isOfferRide ? 'Offered Ride' : 'Took Ride'}}  Id: {{ride.rideId}}</b>
+      </mat-panel-title>
+      <mat-panel-description > 
+            
+      
+       <button mat-button color="primary">Book Again</button>
+   {{ ride.isOfferRide ? 'Vehicle Offered:' : 'Number Of Seats Taken:'}}{{ride.isOfferRide ? 'vehicle Name' : ride.numberOfSeats}}
+      
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+     <mat-list *ngIf="ride.isOfferRide"  >
+     <p>USER DETAILS</p>
+  <mat-list-item *ngFor="let u of ride.user">
+   Name: {{u.userName}}
+   Phone: {{u.userPnoneNumber}}
+   	Email: {{u.userEmail}}
+   	 Company Name: {{u.companyName}}
+   	 <br>Ride End: {{u.userRide.endRide.formattedAddress}}
+   	 <br>		
+Ride Start: {{u.userRide.startRide.formattedAddress}}
+ <mat-grid-list cols="3" rowHeight="40px"> 
+        <mat-grid-tile>
+		
+ Name: {{u.userName}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+Phone: {{u.userPnoneNumber}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		Email: {{u.userEmail}}
+
+
+			  </mat-grid-tile>
+			   </mat-grid-list>
+  <mat-grid-list cols="3" rowHeight="40px"> 
+        <mat-grid-tile>
+		
+ Company Name: {{u.companyName}}
+ 
+
+			  </mat-grid-tile>
+			  <!--  <mat-grid-tile>
+		
+Ride Start: {{u.userRide.startRide.formattedAddress}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+Ride End: {{u.userRide.endRide.formattedAddress}}
+
+
+			  </mat-grid-tile> -->
+			   </mat-grid-list>
+  
+<mat-divider></mat-divider>  
+  </mat-list-item>
+
+</mat-list>
+    
+    
+    
+    
+    <mat-list  *ngIf="!ride.isOfferRide">
+    
+    <mat-list-item>
+     Name: {{ride.user.userName}}
+     		
+
+ 
+ Company : {{ride.user.companyName}}
+ 		
+Phone Number: {{ride.user.userPnoneNumber}}
+Email: {{ride.user.userEmail}}
+<br>Ride Start: {{ride.user.userRide.startRide.formattedAddress}}
+<br>Ride End: {{ride.user.userRide.endRide.formattedAddress}}
+     <mat-grid-list cols="3" rowHeight="40px"> 
+        <mat-grid-tile>
+ Name: {{ride.user.userName}}
+			  </mat-grid-tile>
+			  <!--  <mat-grid-tile>
+		
+Ride Start: {{ride.user.userRide.startRide.formattedAddress}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+Ride End: {{ride.user.userRide.endRide.formattedAddress}}
+
+
+			  </mat-grid-tile> -->
+			   </mat-grid-list>
+  
+  <mat-grid-list cols="3" rowHeight="40px"> 
+        <mat-grid-tile>
+		
+ Company : {{ride.user.companyName}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+Phone Number: {{ride.user.userPnoneNumber}}
+ 
+
+			  </mat-grid-tile>
+			   <mat-grid-tile>
+		
+Email: {{ride.user.userEmail}}
+
+
+			  </mat-grid-tile>
+			   </mat-grid-list>
+  
+    
+    </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+ </mat-accordion>
+ 
+			  
+			    
+			    
+			    
+			    
+	  </mat-card-content>
+	  
+	 
+    </mat-card>
+  
+  
+  
+  </mat-tab>
+  <mat-tab label="Past Rides"> Past Rides </mat-tab>
+  <mat-tab  label="Reoccuring ride"> reoccuring ride</mat-tab>
+</mat-tab-group>
 
 </div>
